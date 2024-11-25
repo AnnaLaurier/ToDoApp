@@ -49,6 +49,9 @@
 		448C193A2CF3D43D0017633F /* ToDoStorageEntityMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 448C19392CF3D43D0017633F /* ToDoStorageEntityMapper.swift */; };
 		448C193D2CF3DB340017633F /* ToDoDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 448C193C2CF3DB340017633F /* ToDoDataModel.swift */; };
 		448C19402CF3DDBB0017633F /* ToDoMappingRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 448C193F2CF3DDBB0017633F /* ToDoMappingRule.swift */; };
+		448C19422CF519A20017633F /* ActionsContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 448C19412CF519A20017633F /* ActionsContainer.swift */; };
+		448C19452CF51A0F0017633F /* PreloadAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 448C19442CF51A0F0017633F /* PreloadAction.swift */; };
+		448C19472CF51B030017633F /* PreloadFlagsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 448C19462CF51B030017633F /* PreloadFlagsStorage.swift */; };
 		44F51CEA2CF33B7500B06F4E /* TDTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F51CE92CF33B7500B06F4E /* TDTextView.swift */; };
 		44F51CEC2CF34B3000B06F4E /* TDFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F51CEB2CF34B3000B06F4E /* TDFormView.swift */; };
 		44F51CEE2CF3651E00B06F4E /* ToDoCellPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F51CED2CF3651E00B06F4E /* ToDoCellPreviewViewController.swift */; };
@@ -100,6 +103,9 @@
 		448C19392CF3D43D0017633F /* ToDoStorageEntityMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoStorageEntityMapper.swift; sourceTree = "<group>"; };
 		448C193C2CF3DB340017633F /* ToDoDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoDataModel.swift; sourceTree = "<group>"; };
 		448C193F2CF3DDBB0017633F /* ToDoMappingRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoMappingRule.swift; sourceTree = "<group>"; };
+		448C19412CF519A20017633F /* ActionsContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionsContainer.swift; sourceTree = "<group>"; };
+		448C19442CF51A0F0017633F /* PreloadAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreloadAction.swift; sourceTree = "<group>"; };
+		448C19462CF51B030017633F /* PreloadFlagsStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreloadFlagsStorage.swift; sourceTree = "<group>"; };
 		44F51CE92CF33B7500B06F4E /* TDTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDTextView.swift; sourceTree = "<group>"; };
 		44F51CEB2CF34B3000B06F4E /* TDFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDFormView.swift; sourceTree = "<group>"; };
 		44F51CED2CF3651E00B06F4E /* ToDoCellPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoCellPreviewViewController.swift; sourceTree = "<group>"; };
@@ -232,6 +238,7 @@
 			children = (
 				446006692CF32C1300F75964 /* AppDependencies.swift */,
 				4460068D2CF335FC00F75964 /* SharedContainer.swift */,
+				448C19412CF519A20017633F /* ActionsContainer.swift */,
 				4460066C2CF32CB900F75964 /* RepositoriesContainer.swift */,
 				4460067F2CF3324900F75964 /* ServicesContainer.swift */,
 				446006812CF3328F00F75964 /* StorageContainer.swift */,
@@ -290,6 +297,7 @@
 			isa = PBXGroup;
 			children = (
 				4460068A2CF3349300F75964 /* RootCoordinator */,
+				448C19432CF51A010017633F /* Actions */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
@@ -329,6 +337,15 @@
 				448C193F2CF3DDBB0017633F /* ToDoMappingRule.swift */,
 			);
 			path = MappingRules;
+			sourceTree = "<group>";
+		};
+		448C19432CF51A010017633F /* Actions */ = {
+			isa = PBXGroup;
+			children = (
+				448C19442CF51A0F0017633F /* PreloadAction.swift */,
+				448C19462CF51B030017633F /* PreloadFlagsStorage.swift */,
+			);
+			path = Actions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -436,7 +453,10 @@
 				446006862CF3341900F75964 /* CoordinatorsContainer.swift in Sources */,
 				446006892CF3348A00F75964 /* RootCoordinator.swift in Sources */,
 				446006802CF3324900F75964 /* ServicesContainer.swift in Sources */,
+				448C19452CF51A0F0017633F /* PreloadAction.swift in Sources */,
+				448C19472CF51B030017633F /* PreloadFlagsStorage.swift in Sources */,
 				4460067E2CF3317C00F75964 /* ToDoStorage.swift in Sources */,
+				448C19422CF519A20017633F /* ActionsContainer.swift in Sources */,
 				44F51CEE2CF3651E00B06F4E /* ToDoCellPreviewViewController.swift in Sources */,
 				4460065C2CF328D400F75964 /* ToDoDetailsRouter.swift in Sources */,
 				448C193A2CF3D43D0017633F /* ToDoStorageEntityMapper.swift in Sources */,

@@ -9,16 +9,16 @@ import Foundation
 
 final class RepositoriesContainer {
 
-    private let appDependencies: AppDependencies
-
-    init(appDependencies: AppDependencies) {
-        self.appDependencies = appDependencies
-    }
-
     lazy var toDoRepository: IToDoRepository = {
         return ToDoRepository(
             toDoService: appDependencies.services.toDoService,
             toDoStorage: appDependencies.storage.toDoStorage
         )
     }()
+
+    private let appDependencies: AppDependencies
+
+    init(appDependencies: AppDependencies) {
+        self.appDependencies = appDependencies
+    }
 }

@@ -13,6 +13,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private lazy var dependencies = AppDependencies()
 
     private lazy var rootCoordinator = dependencies.coordinators.root
+    private lazy var preloadAction = dependencies.actions.preload
 
     func application(
         _ application: UIApplication,
@@ -28,7 +29,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         )
         #endif
 
-        rootCoordinator.openToDoList()
+        preloadAction.execute(completionQueue: .main) { [weak self] in
+            self?.rootCoordinator.openToDoList()
+        }
 
         return true
     }

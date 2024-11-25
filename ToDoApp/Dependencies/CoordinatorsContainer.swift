@@ -9,16 +9,18 @@ import Foundation
 
 final class CoordinatorsContainer {
 
-    private let appDependencies: AppDependencies
-
-    init(appDependencies: AppDependencies) {
-        self.appDependencies = appDependencies
-    }
-
     lazy var root: IRootCoordinator = {
         return RootCoordinator(
             window: appDependencies.shared.window,
             dependencies: appDependencies
         )
     }()
+
+    private let appDependencies: AppDependencies
+
+    init(
+        appDependencies: AppDependencies
+    ) {
+        self.appDependencies = appDependencies
+    }
 }

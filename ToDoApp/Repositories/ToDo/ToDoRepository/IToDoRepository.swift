@@ -14,5 +14,8 @@ protocol IToDoRepository: AnyObject {
         completion: @escaping (Result<[ToDoModel], Error>) -> Void
     )
 
-    func fetchToDoDetails()
+    func preload(
+        completionQueue: DispatchQueue,
+        completion: @escaping (Result<Void, Error>) -> Void
+    )
 }

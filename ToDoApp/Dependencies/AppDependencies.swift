@@ -19,6 +19,10 @@ final class AppDependencies {
         appDependencies: self
     )
 
+    lazy var actions = ActionsContainer(
+        appDependencies: self
+    )
+
     lazy var coordinators = CoordinatorsContainer(
         appDependencies: self
     )

@@ -27,40 +27,48 @@ extension ToDoRepository: IToDoRepository {
         completionQueue: DispatchQueue,
         completion: @escaping (Result<[ToDoModel], Error>) -> Void
     ) {
-//        self.toDoStorage.fetchAll(
-//            completionQueue: completionQueue,
-//            completion: { toDoModels in
-//                completion(.success(toDoModels))
-//            }
-//        )
-//
-//        toDoService.getToDoList(
-//            completionQueue: completionQueue,
-//            completion: { [weak self] result in
-//                guard let self else { return }
-//
-//                switch result {
-//                case .success(let todos):
-//                    todos.forEach { toDo in
-//                        let toDoModel = ToDoMappingRule.mapToDoModel(toDo)
-//                        self.saveToDo(
-//                            toDoModel: toDoModel,
-//                            completionQueue: completionQueue,
-//                            completion: {
-//                                print("Save \(toDoModel.id)")
-//                            }
-//                        )
-//                    }
-//
-//
-//                case .failure(let error):
-//                    completion(.failure(error))
-//                }
-//            }
-//        )
+        toDoStorage.fetchAll(
+            completionQueue: completionQueue,
+            completion: { toDoModels in
+                completion(.success(toDoModels))
+            }
+        )
     }
 
-    func fetchToDoDetails() {
+    func preload(
+        completionQueue: DispatchQueue,
+        completion: @escaping (Result<Void, Error>) -> Void
+    ) {
+        toDoService.getToDoList(
+            completionQueue: completionQueue,
+            completion: { [weak self] result in
+                guard let self else { return }
+
+                switch result {
+                case .success(let todos):
+                    let dispatchGroup = DispatchGroup()
+
+                    for toDo in todos {
+                        dispatchGroup.enter()
+
+                        let toDoModel = ToDoMappingRule.mapToDoModel(toDo)
+                        self.saveToDo(
+                            toDoModel: toDoModel,
+                            completionQueue: completionQueue,
+                            completion: {
+                                dispatchGroup.leave()
+                            }
+                        )
+                    }
+
+                    dispatchGroup.notify(queue: completionQueue) {
+                        completion(.success(()))
+                    }
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+        )
     }
 }
 
