@@ -9,9 +9,33 @@ import Foundation
 
 protocol IToDoRepository: AnyObject {
 
-    func fetchToDoList(
+    func fetchList(
         completionQueue: DispatchQueue,
         completion: @escaping (Result<[ToDoModel], Error>) -> Void
+    )
+
+    func fetch(
+        toDoID: ToDoModel.ToDoID,
+        completionQueue: DispatchQueue,
+        completion: @escaping (ToDoModel?) -> Void
+    )
+
+    func save(
+        toDoModel: ToDoModel,
+        completionQueue: DispatchQueue,
+        completion: @escaping () -> Void
+    )
+
+    func delete(
+        toDoID: ToDoModel.ToDoID,
+        completionQueue: DispatchQueue,
+        completion: @escaping () -> Void
+    )
+
+    func update(
+        toDoModel: ToDoModel,
+        completionQueue: DispatchQueue,
+        completion: @escaping () -> Void
     )
 
     func preload(

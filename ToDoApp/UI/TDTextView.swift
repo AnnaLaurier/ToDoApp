@@ -43,8 +43,15 @@ final class TDTextView: UITextView {
         }
     }
 
+    override var font: UIFont? {
+        didSet {
+            placeholderLabel.font = font
+        }
+    }
+
     private lazy var placeholderLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .lightGray
 
         return label
     }()

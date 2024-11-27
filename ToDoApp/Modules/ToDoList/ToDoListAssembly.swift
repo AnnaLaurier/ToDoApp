@@ -15,7 +15,9 @@ struct ToDoListAssembly {
 extension ToDoListAssembly: IModule {
 
     func makeModule() -> UIViewController {
-        let router = ToDoListRouter()
+        let router = ToDoListRouter(
+            dependencies: dependencies
+        )
         let interactor = ToDoListInteractor(
             toDoRepository: dependencies.repositories.toDoRepository
         )

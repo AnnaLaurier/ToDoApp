@@ -6,7 +6,10 @@
 //
 
 import UIKit
-class BottomListCountView: UIView {
+
+final class BottomListCountView: UIView {
+
+    var onAddTappedHandler: (() -> Void)?
 
     private lazy var horizontalStack: UIStackView = {
         let stack = UIStackView()
@@ -56,6 +59,7 @@ class BottomListCountView: UIView {
 
         setupConstrains()
         configureAppearance()
+        configureAction()
     }
 
     required init?(coder: NSCoder) {
@@ -93,5 +97,19 @@ private extension BottomListCountView {
 
     func configureAppearance() {
         backgroundColor = .black
+    }
+
+    func configureAction() {
+        let tapGesture = UITapGestureRecognizer(
+            target: self,
+            action: #selector(onAddImageViewTapped)
+        )
+        addImageView.isUserInteractionEnabled = true
+        addImageView.addGestureRecognizer(tapGesture)
+    }
+
+    @objc
+    func onAddImageViewTapped() {
+        onAddTappedHandler?()
     }
 }

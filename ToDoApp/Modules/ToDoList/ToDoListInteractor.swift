@@ -9,8 +9,13 @@ import UIKit
 
 protocol IToDoListInteractorInput: AnyObject {
 
-    func fetchToDos(
+    func fetchList(
         completion: @escaping (Result<[ToDoModel], Error>) -> Void
+    )
+
+    func delete(
+        toDoID: ToDoModel.ToDoID,
+        completion: @escaping () -> Void
     )
 }
 
@@ -27,10 +32,21 @@ class ToDoListInteractor {
 
 extension ToDoListInteractor: IToDoListInteractorInput {
 
-    func fetchToDos(
+    func fetchList(
         completion: @escaping (Result<[ToDoModel], Error>) -> Void
     ) {
-        toDoRepository.fetchToDoList(
+        toDoRepository.fetchList(
+            completionQueue: .main,
+            completion: completion
+        )
+    }
+
+    func delete(
+        toDoID: ToDoModel.ToDoID,
+        completion: @escaping () -> Void
+    ) {
+        toDoRepository.delete(
+            toDoID: toDoID,
             completionQueue: .main,
             completion: completion
         )

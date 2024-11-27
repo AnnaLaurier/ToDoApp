@@ -30,6 +30,9 @@ class ToDoListViewController: UIViewController {
 
     private lazy var bottomListCountView: BottomListCountView = {
         let view = BottomListCountView()
+        view.onAddTappedHandler = { [weak self] in
+            self?.presenter.onAddTappedHandler()
+        }
 
         return view
     }()
@@ -52,6 +55,8 @@ class ToDoListViewController: UIViewController {
         super.viewWillAppear(animated)
 
         configureAppearance()
+
+        presenter.viewWillAppear()
     }
 }
 
@@ -100,14 +105,14 @@ extension ToDoListViewController: UITableViewDelegate {
             title: "Редактировать",
             image: UIImage(systemName: "square.and.pencil")
         ) { [weak self] action in
-            self?.presenter.editToDoTappedHandler(toDoModel.id)
+            self?.presenter.editTappedHandler(toDoModel.id)
         }
 
         let shareAction = UIAction(
             title: "Поделиться",
             image: UIImage(systemName: "square.and.arrow.up")
         ) { [weak self] action in
-            self?.presenter.shareToDoTappedHandler(toDoModel.id)
+            self?.presenter.shareTappedHandler(toDoModel.id)
         }
 
         let deleteAction = UIAction(
@@ -115,7 +120,7 @@ extension ToDoListViewController: UITableViewDelegate {
             image: UIImage(systemName: "trash"),
             attributes: .destructive
         ) { [weak self] action in
-            self?.presenter.deleteToDoTappedHandler(toDoModel.id)
+            self?.presenter.deleteTappedHandler(toDoModel.id)
         }
 
         let menu = UIMenu(

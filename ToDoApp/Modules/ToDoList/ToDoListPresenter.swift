@@ -11,11 +11,15 @@ protocol IToDoListPresenterInput: AnyObject {
 
     func viewIsReady()
 
-    func editToDoTappedHandler(_ toDoID: ToDoModel.ToDoID)
+    func viewWillAppear()
 
-    func shareToDoTappedHandler(_ toDoID: ToDoModel.ToDoID)
+    func editTappedHandler(_ toDoID: ToDoModel.ToDoID)
 
-    func deleteToDoTappedHandler(_ toDoID: ToDoModel.ToDoID)
+    func shareTappedHandler(_ toDoID: ToDoModel.ToDoID)
+
+    func deleteTappedHandler(_ toDoID: ToDoModel.ToDoID)
+
+    func onAddTappedHandler()
 }
 
 class ToDoListPresenter {
@@ -40,7 +44,40 @@ class ToDoListPresenter {
 extension ToDoListPresenter: IToDoListPresenterInput {
 
     func viewIsReady() {
-        interactor.fetchToDos { [weak self] result in
+        fetchList()
+    }
+
+    func viewWillAppear() {
+        fetchList()
+    }
+
+    func editTappedHandler(_ toDoID: ToDoModel.ToDoID) {
+        router.openEditDetails(toDoID)
+    }
+
+    func shareTappedHandler(_ toDoID: ToDoModel.ToDoID) {
+        guard let shareText = toDoModels.first(where: { $0.id == toDoID }) else {
+            return
+        }
+
+        router.shareDetails([shareText])
+    }
+
+    func deleteTappedHandler(_ toDoID: ToDoModel.ToDoID) {
+        interactor.delete(toDoID: toDoID) { [weak self] in
+            self?.fetchList()
+        }
+    }
+
+    func onAddTappedHandler() {
+        router.openAddDetails()
+    }
+}
+
+private extension ToDoListPresenter {
+
+    func fetchList() {
+        interactor.fetchList { [weak self] result in
             guard let self else { return }
             switch result {
             case .success(let models):
@@ -55,24 +92,6 @@ extension ToDoListPresenter: IToDoListPresenterInput {
         }
     }
 
-    func editToDoTappedHandler(_ toDoID: ToDoModel.ToDoID) {
-        router.openDetails(toDoID)
-    }
-
-    func shareToDoTappedHandler(_ toDoID: ToDoModel.ToDoID) {
-        guard let shareText = toDoModels.first(where: { $0.id == toDoID }) else {
-            return
-        }
-
-        router.shareDetails([shareText])
-    }
-
-    func deleteToDoTappedHandler(_ toDoID: ToDoModel.ToDoID) {
-    }
-}
-
-private extension ToDoListPresenter {
-
     func updateViewModel(_ models: [ToDoModel]) {
         let viewModels = models.map(mapViewModel)
         view?.reloadData(viewModels: viewModels)
@@ -82,15 +101,15 @@ private extension ToDoListPresenter {
         return ToDoTableViewCell.ViewModel(
             id: model.id,
             userID: model.userID,
-            title: model.title,
-            description: model.description,
+            title: model.title ?? "(Пустой заголовок)",
+            description: model.description ?? "(Пустое описание)",
             date: model.date,
             completed: completedTodoIDs.contains(model.id),
             completedHandler: { [weak self] in
                 self?.onCompletedHandler(model)
             }, 
             onTappedHandler: { [weak self] in
-                self?.router.openDetails(model.id)
+                self?.router.openEditDetails(model.id)
             }
         )
     }

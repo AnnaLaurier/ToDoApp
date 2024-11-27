@@ -120,7 +120,7 @@ extension ToDoTableViewCell {
         titleLabel.text = viewModel.title
         titleLabel.textColor = viewModel.completed ? .gray : .white
         titleLabel.attributedText = NSAttributedString(
-            string: viewModel.title ?? "",
+            string: viewModel.title ,
             attributes: viewModel.completed ? strokeAttributes : defaultAttributes
         )
 

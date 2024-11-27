@@ -30,7 +30,9 @@ extension ToDoStorage: IToDoStorage {
         dbRepository.performTask { [weak self] context in
             guard let self else {
                 assertionFailure("Self isn't exist")
-                completion([])
+                completionQueue.async {
+                    completion([])
+                }
                 return
             }
 
@@ -64,12 +66,14 @@ extension ToDoStorage: IToDoStorage {
         dbRepository.performTask { [weak self] context in
             guard let self else {
                 assertionFailure("Self isn't exist")
-                completion(nil)
+                completionQueue.async {
+                    completion(nil)
+                }
                 return
             }
 
             let request = ToDoMO.fetchRequest()
-            request.predicate = NSPredicate(format: "toDoID", toDoID)
+            request.predicate = NSPredicate(format: "toDoID == %lld", toDoID)
             request.fetchLimit = 1
 
             do {
@@ -98,7 +102,9 @@ extension ToDoStorage: IToDoStorage {
         dbRepository.performTask { [weak self] context in
             guard let self else {
                 assertionFailure("Self isn't exist")
-                completion()
+                completionQueue.async {
+                    completion()
+                }
                 return
             }
 
@@ -127,14 +133,16 @@ extension ToDoStorage: IToDoStorage {
         dbRepository.performTask { [weak self] context in
             guard let self else {
                 assertionFailure("Self isn't exist")
-                completion()
+                completionQueue.async {
+                    completion()
+                }
                 return
             }
 
             do {
                 try self.dbRepository.delete(
                     entityMO: ToDoMO.self,
-                    predicate: NSPredicate(format: "toDoID", toDoID),
+                    predicate: NSPredicate(format: "toDoID == %lld", toDoID),
                     context: context
                 )
                 try self.dbRepository.save(context: context)
@@ -158,14 +166,16 @@ extension ToDoStorage: IToDoStorage {
         dbRepository.performTask { [weak self] context in
             guard let self else {
                 assertionFailure("Self isn't exist")
-                completion()
+                completionQueue.async {
+                    completion()
+                }
                 return
             }
 
             let toDoMO = ToDoMO(context: context)
             self.entityMapper.bind(entity: toDoMO, model: toDoModel)
 
-            let predicate = NSPredicate(format: "toDoID", toDoModel.id)
+            let predicate = NSPredicate(format: "toDoID == %lld", toDoModel.id)
 
             do {
                 try self.dbRepository.delete(

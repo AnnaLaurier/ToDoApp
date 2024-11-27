@@ -23,7 +23,7 @@ class ToDoRepository {
 
 extension ToDoRepository: IToDoRepository {
 
-    func fetchToDoList(
+    func fetchList(
         completionQueue: DispatchQueue,
         completion: @escaping (Result<[ToDoModel], Error>) -> Void
     ) {
@@ -32,6 +32,54 @@ extension ToDoRepository: IToDoRepository {
             completion: { toDoModels in
                 completion(.success(toDoModels))
             }
+        )
+    }
+
+    func fetch(
+        toDoID: ToDoModel.ToDoID,
+        completionQueue: DispatchQueue,
+        completion: @escaping (ToDoModel?) -> Void
+    ) {
+        toDoStorage.fetch(
+            toDoID: toDoID,
+            completionQueue: completionQueue,
+            completion: completion
+        )
+    }
+
+    func save(
+        toDoModel: ToDoModel,
+        completionQueue: DispatchQueue,
+        completion: @escaping () -> Void
+    ) {
+        toDoStorage.save(
+            toDoModel: toDoModel,
+            completionQueue: completionQueue,
+            completion: completion
+        )
+    }
+
+    func delete(
+        toDoID: ToDoModel.ToDoID,
+        completionQueue: DispatchQueue,
+        completion: @escaping () -> Void
+    ) {
+        toDoStorage.delete(
+            toDoID: toDoID,
+            completionQueue: completionQueue,
+            completion: completion
+        )
+    }
+
+    func update(
+        toDoModel: ToDoModel,
+        completionQueue: DispatchQueue,
+        completion: @escaping () -> Void
+    ) {
+        toDoStorage.update(
+            toDoModel: toDoModel,
+            completionQueue: completionQueue,
+            completion: completion
         )
     }
 

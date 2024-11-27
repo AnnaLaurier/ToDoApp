@@ -9,7 +9,9 @@ import UIKit
 
 struct ToDoDetailsAssembly {
 
-    let toDoID: ToDoModel.ToDoID?
+    let mode: ToDoDetailsInteractor.ToDoDetailsMode
+
+    let dependencies: AppDependencies
 }
 
 extension ToDoDetailsAssembly: IModule {
@@ -17,7 +19,8 @@ extension ToDoDetailsAssembly: IModule {
     func makeModule() -> UIViewController {
         let router = ToDoDetailsRouter()
         let interactor = ToDoDetailsInteractor(
-            toDoID: toDoID
+            mode: mode,
+            toDoRepository: dependencies.repositories.toDoRepository
         )
         let presenter = ToDoDetailsPresenter(
             interactor: interactor,

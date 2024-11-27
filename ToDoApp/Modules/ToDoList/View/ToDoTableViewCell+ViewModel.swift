@@ -13,8 +13,8 @@ extension ToDoTableViewCell {
 
         let id: ToDoModel.ToDoID
         let userID: Int
-        let title: String?
-        let description: String?
+        let title: String
+        let description: String
         let date: Date
         let completed: Bool
 

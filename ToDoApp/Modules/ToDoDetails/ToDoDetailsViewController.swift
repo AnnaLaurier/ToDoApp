@@ -14,7 +14,7 @@ protocol IToDoDetailsViewControllerInput: AnyObject {
     func updateDescription(_ description: String?)
 }
 
-class ToDoDetailsViewController: UIViewController {
+final class ToDoDetailsViewController: UIViewController {
 
     private let presenter: IToDoDetailsPresenterInput
 
@@ -32,6 +32,10 @@ class ToDoDetailsViewController: UIViewController {
         textView.font = UIFont.boldSystemFont(ofSize: 34)
         textView.textContainer.lineFragmentPadding = 0
         textView.showsToolbar = true
+        textView.placeholder = "Заголовок"
+        textView.inputChangeHandler = { [weak self] title in
+            self?.presenter.updateTitle(title)
+        }
 
         return textView
     }()
@@ -50,6 +54,10 @@ class ToDoDetailsViewController: UIViewController {
         textView.font = UIFont.systemFont(ofSize: 16)
         textView.textContainer.lineFragmentPadding = 0
         textView.showsToolbar = true
+        textView.placeholder = "Описание"
+        textView.inputChangeHandler = { [weak self] description in
+            self?.presenter.updateDescription(description)
+        }
 
         return textView
     }()
@@ -65,6 +73,14 @@ class ToDoDetailsViewController: UIViewController {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        guard isMovingFromParent else { return }
+
+        presenter.onReturnTapped()
     }
 }
 

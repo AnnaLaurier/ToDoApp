@@ -9,7 +9,9 @@ import UIKit
 
 protocol IToDoListRouterInput: AnyObject {
 
-    func openDetails(_ todoID: ToDoModel.ToDoID)
+    func openAddDetails()
+
+    func openEditDetails(_ toDoID: ToDoModel.ToDoID)
 
     func shareDetails(_ itemsToShare: [Any])
 }
@@ -17,13 +19,33 @@ protocol IToDoListRouterInput: AnyObject {
 class ToDoListRouter {
 
     weak var viewController: UIViewController?
+
+    private let dependencies: AppDependencies
+
+    init(dependencies: AppDependencies) {
+        self.dependencies = dependencies
+    }
 }
 
 extension ToDoListRouter: IToDoListRouterInput {
 
-    func openDetails(_ todoID: ToDoModel.ToDoID) {
+    func openAddDetails() {
         let toDoDetailsViewController = ToDoDetailsAssembly(
-            toDoID: todoID
+            mode: .add,
+            dependencies: dependencies
+        ).makeModule()
+        toDoDetailsViewController.navigationItem.largeTitleDisplayMode = .never
+
+        viewController?.navigationController?.pushViewController(
+            toDoDetailsViewController,
+            animated: true
+        )
+    }
+
+    func openEditDetails(_ toDoID: ToDoModel.ToDoID) {
+        let toDoDetailsViewController = ToDoDetailsAssembly(
+            mode: .edit(toDoID),
+            dependencies: dependencies
         ).makeModule()
         toDoDetailsViewController.navigationItem.largeTitleDisplayMode = .never
 
