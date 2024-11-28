@@ -16,7 +16,7 @@ protocol IToDoListRouterInput: AnyObject {
     func shareDetails(_ itemsToShare: [Any])
 }
 
-class ToDoListRouter {
+final class ToDoListRouter {
 
     weak var viewController: UIViewController?
 

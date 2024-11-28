@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ToDoTableViewCell: UITableViewCell {
+final class ToDoTableViewCell: UITableViewCell {
 
     private var completedHandler: (() -> Void)?
     private var onTappedHandler: (() -> Void)?

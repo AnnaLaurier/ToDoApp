@@ -7,17 +7,20 @@
 
 import Foundation
 
-final class PreloadFlagsStorage {
+extension PreloadAction {
 
-    enum Flag: String {
-        case toDoAPILoaded
-    }
+    final class PreloadFlagsStorage {
 
-    func getFlag(_ key: Flag) -> Bool {
-        return UserDefaults.standard.bool(forKey: key.rawValue)
-    }
+        enum Flag: String {
+            case toDoAPILoaded
+        }
 
-    func setFlag(_ key: Flag, newValue: Bool) {
-        UserDefaults.standard.set(newValue, forKey: key.rawValue)
+        func getFlag(_ key: Flag) -> Bool {
+            return UserDefaults.standard.bool(forKey: key.rawValue)
+        }
+
+        func setFlag(_ key: Flag, newValue: Bool) {
+            UserDefaults.standard.set(newValue, forKey: key.rawValue)
+        }
     }
 }

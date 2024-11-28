@@ -16,18 +16,12 @@ protocol IToDoDetailsInteractorInput: AnyObject {
         completion: @escaping (ToDoModel?) -> Void
     )
 
-    func save(
-        toDoModel: ToDoModel,
-        completion: @escaping () -> Void
-    )
+    func save(toDoModel: ToDoModel)
 
-    func update(
-        toDoModel: ToDoModel,
-        completion: @escaping () -> Void
-    )
+    func update(toDoModel: ToDoModel)
 }
 
-class ToDoDetailsInteractor {
+final class ToDoDetailsInteractor {
 
     var mode: ToDoDetailsMode
 
@@ -55,26 +49,12 @@ extension ToDoDetailsInteractor: IToDoDetailsInteractorInput {
         )
     }
 
-    func save(
-        toDoModel: ToDoModel,
-        completion: @escaping () -> Void
-    ) {
-        toDoRepository.save(
-            toDoModel: toDoModel,
-            completionQueue: .main,
-            completion: completion
-        )
+    func save(toDoModel: ToDoModel) {
+        toDoRepository.save(toDoModel: toDoModel)
     }
 
-    func update(
-        toDoModel: ToDoModel,
-        completion: @escaping () -> Void
-    ) {
-        toDoRepository.update(
-            toDoModel: toDoModel,
-            completionQueue: .main,
-            completion: completion
-        )
+    func update(toDoModel: ToDoModel) {
+        toDoRepository.update(toDoModel: toDoModel)
     }
 }
 

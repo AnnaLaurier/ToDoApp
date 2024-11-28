@@ -18,7 +18,7 @@ protocol IToDoDetailsPresenterInput: AnyObject {
     func onReturnTapped()
 }
 
-class ToDoDetailsPresenter {
+final class ToDoDetailsPresenter {
 
     weak var view: IToDoDetailsViewControllerInput?
 
@@ -75,7 +75,7 @@ extension ToDoDetailsPresenter: IToDoDetailsPresenterInput {
                 completed: false
             )
 
-            interactor.save(toDoModel: toDoModel, completion: {})
+            interactor.save(toDoModel: toDoModel)
         case .edit(let toDoID):
             guard
                 title != initialModel?.title || description != initialModel?.description
@@ -92,7 +92,7 @@ extension ToDoDetailsPresenter: IToDoDetailsPresenterInput {
                 completed: initialModel?.completed ?? false
             )
 
-            interactor.update(toDoModel: toDoModel, completion: {})
+            interactor.update(toDoModel: toDoModel)
         }
     }
 }

@@ -20,23 +20,11 @@ protocol IToDoRepository: AnyObject {
         completion: @escaping (ToDoModel?) -> Void
     )
 
-    func save(
-        toDoModel: ToDoModel,
-        completionQueue: DispatchQueue,
-        completion: @escaping () -> Void
-    )
+    func save(toDoModel: ToDoModel)
 
-    func delete(
-        toDoID: ToDoModel.ToDoID,
-        completionQueue: DispatchQueue,
-        completion: @escaping () -> Void
-    )
+    func delete(toDoID: ToDoModel.ToDoID)
 
-    func update(
-        toDoModel: ToDoModel,
-        completionQueue: DispatchQueue,
-        completion: @escaping () -> Void
-    )
+    func update(toDoModel: ToDoModel)
 
     func preload(
         completionQueue: DispatchQueue,

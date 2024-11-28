@@ -9,10 +9,17 @@ import Foundation
 
 final class RepositoriesContainer {
 
+    lazy var notifierRepository: INotifierRepository = {
+        return NotifierRepository(
+            toDoNotifier: ToDoNotifier()
+        )
+    }()
+
     lazy var toDoRepository: IToDoRepository = {
         return ToDoRepository(
             toDoService: appDependencies.services.toDoService,
-            toDoStorage: appDependencies.storage.toDoStorage
+            toDoStorage: appDependencies.storage.toDoStorage,
+            toDoNotifier: notifierRepository.toDoNotifier
         )
     }()
 

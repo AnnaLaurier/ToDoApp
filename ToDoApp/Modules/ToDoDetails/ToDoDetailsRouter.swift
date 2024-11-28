@@ -10,7 +10,7 @@ import UIKit
 protocol IToDoDetailsRouterInput: AnyObject {
 }
 
-class ToDoDetailsRouter {
+final class ToDoDetailsRouter {
 
     weak var viewController: UIViewController?
 }

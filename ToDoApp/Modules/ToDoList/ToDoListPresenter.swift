@@ -11,8 +11,6 @@ protocol IToDoListPresenterInput: AnyObject {
 
     func viewIsReady()
 
-    func viewWillAppear()
-
     func editTappedHandler(_ toDoID: ToDoModel.ToDoID)
 
     func shareTappedHandler(_ toDoID: ToDoModel.ToDoID)
@@ -22,7 +20,7 @@ protocol IToDoListPresenterInput: AnyObject {
     func onAddTappedHandler()
 }
 
-class ToDoListPresenter {
+final class ToDoListPresenter {
 
     weak var view: IToDoListViewControllerInput?
 
@@ -39,15 +37,17 @@ class ToDoListPresenter {
         self.interactor = interactor
         self.router = router
     }
+
+    deinit {
+        interactor.unsubscribe(self)
+    }
 }
 
 extension ToDoListPresenter: IToDoListPresenterInput {
 
     func viewIsReady() {
-        fetchList()
-    }
+        interactor.subscribe(self)
 
-    func viewWillAppear() {
         fetchList()
     }
 
@@ -64,13 +64,43 @@ extension ToDoListPresenter: IToDoListPresenterInput {
     }
 
     func deleteTappedHandler(_ toDoID: ToDoModel.ToDoID) {
-        interactor.delete(toDoID: toDoID) { [weak self] in
-            self?.fetchList()
-        }
+        interactor.delete(toDoID: toDoID)
     }
 
     func onAddTappedHandler() {
         router.openAddDetails()
+    }
+}
+
+extension ToDoListPresenter: IToDoListener {
+
+    func didAdd(_ toDoModel: ToDoModel) {
+        guard !toDoModels.contains(where: { $0.id == toDoModel.id }) else {
+            return
+        }
+
+        toDoModels.append(toDoModel)
+        updateViewModel(toDoModels)
+    }
+
+    func didDelete(_ toDoID: ToDoModel.ToDoID) {
+        guard toDoModels.contains(where: { $0.id == toDoID }) else {
+            return
+        }
+
+        toDoModels.removeAll(where: { $0.id == toDoID })
+        updateViewModel(toDoModels)
+    }
+
+    func didUpdate(_ toDoModel: ToDoModel) {
+        guard
+            let index = toDoModels.firstIndex(where: { $0.id == toDoModel.id })
+        else {
+            return
+        }
+
+        toDoModels[index] = toDoModel
+        updateViewModel(toDoModels)
     }
 }
 
@@ -93,8 +123,11 @@ private extension ToDoListPresenter {
     }
 
     func updateViewModel(_ models: [ToDoModel]) {
-        let viewModels = models.map(mapViewModel)
-        view?.reloadData(viewModels: viewModels)
+        let viewModels = models
+            .map(mapViewModel)
+            .sorted { $0.date > $1.date }
+
+        view?.reload(viewModels)
     }
 
     func mapViewModel(_ model: ToDoModel) -> ToDoTableViewCell.ViewModel {
@@ -115,12 +148,16 @@ private extension ToDoListPresenter {
     }
 
     func onCompletedHandler(_ model: ToDoModel) {
-        if completedTodoIDs.contains(model.id) {
+        let isCompleted = completedTodoIDs.contains(model.id)
+
+        if isCompleted {
             completedTodoIDs.remove(model.id)
         } else {
             completedTodoIDs.insert(model.id)
         }
 
-        updateViewModel(toDoModels)
+        interactor.update(
+            toDoModel: model.copyCompleted(!isCompleted)
+        )
     }
 }

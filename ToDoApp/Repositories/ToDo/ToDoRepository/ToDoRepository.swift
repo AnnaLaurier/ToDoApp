@@ -7,17 +7,24 @@
 
 import Foundation
 
-class ToDoRepository {
+final class ToDoRepository {
 
     private let toDoService: IToDoService
     private let toDoStorage: IToDoStorage
+    private let toDoNotifier: IToDoNotifier
+
+    private let workQueue = DispatchQueue(
+        label: DispatchQueueLabel.create(system: "ToDoRepository")
+    )
 
     init(
         toDoService: IToDoService,
-        toDoStorage: IToDoStorage
+        toDoStorage: IToDoStorage,
+        toDoNotifier: IToDoNotifier
     ) {
         self.toDoService = toDoService
         self.toDoStorage = toDoStorage
+        self.toDoNotifier = toDoNotifier
     }
 }
 
@@ -27,12 +34,17 @@ extension ToDoRepository: IToDoRepository {
         completionQueue: DispatchQueue,
         completion: @escaping (Result<[ToDoModel], Error>) -> Void
     ) {
-        toDoStorage.fetchAll(
-            completionQueue: completionQueue,
-            completion: { toDoModels in
-                completion(.success(toDoModels))
-            }
-        )
+        workQueue.async { [weak self] in
+            guard let self else { return }
+
+            self.toDoStorage.fetchAll(
+                completionQueue: completionQueue,
+                completion: { toDoModels in
+                    completion(.success(toDoModels))
+                }
+            )
+        }
+
     }
 
     func fetch(
@@ -40,97 +52,96 @@ extension ToDoRepository: IToDoRepository {
         completionQueue: DispatchQueue,
         completion: @escaping (ToDoModel?) -> Void
     ) {
-        toDoStorage.fetch(
-            toDoID: toDoID,
-            completionQueue: completionQueue,
-            completion: completion
-        )
+        workQueue.async { [weak self] in
+            guard let self else { return }
+
+            self.toDoStorage.fetch(
+                toDoID: toDoID,
+                completionQueue: completionQueue,
+                completion: completion
+            )
+        }
     }
 
-    func save(
-        toDoModel: ToDoModel,
-        completionQueue: DispatchQueue,
-        completion: @escaping () -> Void
-    ) {
-        toDoStorage.save(
-            toDoModel: toDoModel,
-            completionQueue: completionQueue,
-            completion: completion
-        )
+    func save(toDoModel: ToDoModel) {
+        workQueue.async { [weak self] in
+            guard let self else { return }
+
+            self.toDoStorage.save(
+                toDoModel: toDoModel,
+                completionQueue: workQueue,
+                completion: { [weak self] in
+                    self?.toDoNotifier.notify { $0?.didAdd(toDoModel) }
+                }
+            )
+        }
     }
 
-    func delete(
-        toDoID: ToDoModel.ToDoID,
-        completionQueue: DispatchQueue,
-        completion: @escaping () -> Void
-    ) {
-        toDoStorage.delete(
-            toDoID: toDoID,
-            completionQueue: completionQueue,
-            completion: completion
-        )
+    func delete(toDoID: ToDoModel.ToDoID) {
+        workQueue.async { [weak self] in
+            guard let self else { return }
+
+            self.toDoStorage.delete(
+                toDoID: toDoID,
+                completionQueue: workQueue,
+                completion: { [weak self] in
+                    self?.toDoNotifier.notify { $0?.didDelete(toDoID) }
+                }
+            )
+        }
     }
 
-    func update(
-        toDoModel: ToDoModel,
-        completionQueue: DispatchQueue,
-        completion: @escaping () -> Void
-    ) {
-        toDoStorage.update(
-            toDoModel: toDoModel,
-            completionQueue: completionQueue,
-            completion: completion
-        )
+    func update(toDoModel: ToDoModel) {
+        workQueue.async { [weak self] in
+            guard let self else { return }
+
+            self.toDoStorage.update(
+                toDoModel: toDoModel,
+                completionQueue: workQueue,
+                completion: { [weak self] in
+                    self?.toDoNotifier.notify { $0?.didUpdate(toDoModel) }
+                }
+            )
+        }
     }
 
     func preload(
         completionQueue: DispatchQueue,
         completion: @escaping (Result<Void, Error>) -> Void
     ) {
-        toDoService.getToDoList(
-            completionQueue: completionQueue,
-            completion: { [weak self] result in
-                guard let self else { return }
+        workQueue.async { [weak self] in
+            guard let self else { return }
 
-                switch result {
-                case .success(let todos):
-                    let dispatchGroup = DispatchGroup()
+            self.toDoService.getToDoList(
+                completionQueue: completionQueue,
+                completion: { [weak self] result in
+                    guard let self else { return }
 
-                    for toDo in todos {
-                        dispatchGroup.enter()
+                    switch result {
+                    case .success(let todos):
+                        let dispatchGroup = DispatchGroup()
 
-                        let toDoModel = ToDoMappingRule.mapToDoModel(toDo)
-                        self.saveToDo(
-                            toDoModel: toDoModel,
-                            completionQueue: completionQueue,
-                            completion: {
-                                dispatchGroup.leave()
-                            }
-                        )
+                        for toDo in todos {
+                            dispatchGroup.enter()
+
+                            let toDoModel = ToDoMappingRule.mapToDoModel(toDo)
+                            self.toDoStorage.save(
+                                toDoModel: toDoModel,
+                                completionQueue: self.workQueue,
+                                completion: {
+                                    dispatchGroup.leave()
+                                }
+                            )
+                        }
+
+                        dispatchGroup.notify(queue: completionQueue) {
+                            completion(.success(()))
+                        }
+                    case .failure(let error):
+                        completion(.failure(error))
                     }
-
-                    dispatchGroup.notify(queue: completionQueue) {
-                        completion(.success(()))
-                    }
-                case .failure(let error):
-                    completion(.failure(error))
                 }
-            }
-        )
-    }
-}
-
-private extension ToDoRepository {
-
-    func saveToDo(
-        toDoModel: ToDoModel,
-        completionQueue: DispatchQueue,
-        completion: @escaping () -> Void
-    ) {
-        toDoStorage.save(
-            toDoModel: toDoModel,
-            completionQueue: completionQueue,
-            completion: completion
-        )
+            )
+        }
     }
 }

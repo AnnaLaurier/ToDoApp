@@ -7,26 +7,29 @@
 
 import UIKit
 
-protocol IToDoListInteractorInput: AnyObject {
+protocol IToDoListInteractorInput: AnyObject,
+                                   IToDoSubscribeNotifier {
 
     func fetchList(
         completion: @escaping (Result<[ToDoModel], Error>) -> Void
     )
 
-    func delete(
-        toDoID: ToDoModel.ToDoID,
-        completion: @escaping () -> Void
-    )
+    func delete(toDoID: ToDoModel.ToDoID)
+
+    func update(toDoModel: ToDoModel)
 }
 
-class ToDoListInteractor {
+final class ToDoListInteractor {
 
     private let toDoRepository: IToDoRepository
+    private let toDoNotifier: IToDoNotifier
 
     init(
-        toDoRepository: IToDoRepository
+        toDoRepository: IToDoRepository,
+        toDoNotifier: IToDoNotifier
     ) {
         self.toDoRepository = toDoRepository
+        self.toDoNotifier = toDoNotifier
     }
 }
 
@@ -41,14 +44,22 @@ extension ToDoListInteractor: IToDoListInteractorInput {
         )
     }
 
-    func delete(
-        toDoID: ToDoModel.ToDoID,
-        completion: @escaping () -> Void
-    ) {
-        toDoRepository.delete(
-            toDoID: toDoID,
-            completionQueue: .main,
-            completion: completion
-        )
+    func delete(toDoID: ToDoModel.ToDoID) {
+        toDoRepository.delete(toDoID: toDoID)
+    }
+
+    func update(toDoModel: ToDoModel) {
+        toDoRepository.update(toDoModel: toDoModel)
+    }
+}
+
+extension ToDoListInteractor: IToDoSubscribeNotifier {
+
+    func subscribe(_ listener: IToDoListener) {
+        toDoNotifier.subscribe(listener)
+    }
+
+    func unsubscribe(_ listener: IToDoListener) {
+        toDoNotifier.unsubscribe(listener)
     }
 }

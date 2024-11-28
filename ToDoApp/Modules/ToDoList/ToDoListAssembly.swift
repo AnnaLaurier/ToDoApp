@@ -19,7 +19,8 @@ extension ToDoListAssembly: IModule {
             dependencies: dependencies
         )
         let interactor = ToDoListInteractor(
-            toDoRepository: dependencies.repositories.toDoRepository
+            toDoRepository: dependencies.repositories.toDoRepository,
+            toDoNotifier: dependencies.repositories.notifierRepository.toDoNotifier
         )
         let presenter = ToDoListPresenter(
             interactor: interactor,

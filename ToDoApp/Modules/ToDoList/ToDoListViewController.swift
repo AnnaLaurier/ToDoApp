@@ -6,13 +6,14 @@
 //
 
 import UIKit
+import DifferenceKit
 
 protocol IToDoListViewControllerInput: AnyObject {
 
-    func reloadData(viewModels: [ToDoTableViewCell.ViewModel])
+    func reload(_ viewModels: [ToDoTableViewCell.ViewModel])
 }
 
-class ToDoListViewController: UIViewController {
+final class ToDoListViewController: UIViewController {
 
     private let presenter: IToDoListPresenterInput
 
@@ -55,18 +56,37 @@ class ToDoListViewController: UIViewController {
         super.viewWillAppear(animated)
 
         configureAppearance()
-
-        presenter.viewWillAppear()
     }
 }
 
 extension ToDoListViewController: IToDoListViewControllerInput {
 
-    func reloadData(viewModels: [ToDoTableViewCell.ViewModel]) {
-        self.viewModels = viewModels
-        tableView.reloadData()
-
+    func reload(_ viewModels: [ToDoTableViewCell.ViewModel]) {
         bottomListCountView.configure("\(viewModels.count) Задач")
+
+        guard self.viewModels.isEmpty else {
+            self.viewModels = viewModels
+            tableView.reloadData()
+            return
+        }
+
+        let changeSet = StagedChangeset(
+            source: self.viewModels,
+            target: viewModels
+        )
+
+        tableView.reload(
+            using: changeSet,
+            deleteSectionsAnimation: .automatic,
+            insertSectionsAnimation: .automatic,
+            reloadSectionsAnimation: .automatic,
+            deleteRowsAnimation: .left,
+            insertRowsAnimation: .top,
+            reloadRowsAnimation: .automatic,
+            setData: { [weak self] data in
+                self?.viewModels = data
+            }
+        )
     }
 }
 
@@ -138,10 +158,6 @@ extension ToDoListViewController: UITableViewDelegate {
         )
 
         previewViewController.view.frame = cell.frame
-//        previewViewController.view.translatesAutoresizingMaskIntoConstraints = false
-//        previewViewController.view.heightAnchor.constraint(
-//            equalToConstant: cell.frame.height
-//        ).isActive = true
 
         let contextMenuConfiguration = UIContextMenuConfiguration(
             identifier: nil,

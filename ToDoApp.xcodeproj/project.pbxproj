@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4418A77D2CF8E384008BA7C3 /* IToDoListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4418A77C2CF8E384008BA7C3 /* IToDoListener.swift */; };
+		4418A77F2CF8E3BB008BA7C3 /* IToDoNotifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4418A77E2CF8E3BB008BA7C3 /* IToDoNotifier.swift */; };
+		4418A7812CF8E42C008BA7C3 /* ToDoNotifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4418A7802CF8E42C008BA7C3 /* ToDoNotifier.swift */; };
+		4418A7842CF8E518008BA7C3 /* Weak.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4418A7832CF8E518008BA7C3 /* Weak.swift */; };
+		4418A7862CF8E530008BA7C3 /* Subscriber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4418A7852CF8E530008BA7C3 /* Subscriber.swift */; };
+		4418A7892CF8EA74008BA7C3 /* INotifierRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4418A7882CF8EA74008BA7C3 /* INotifierRepository.swift */; };
+		4418A78B2CF8EA78008BA7C3 /* NotifierRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4418A78A2CF8EA78008BA7C3 /* NotifierRepository.swift */; };
+		4418A78E2CF8ECC8008BA7C3 /* DifferenceKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4418A78D2CF8ECC8008BA7C3 /* DifferenceKit */; };
+		4418A7912CF8F533008BA7C3 /* DispatchQueueLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4418A7902CF8F533008BA7C3 /* DispatchQueueLabel.swift */; };
 		4460060A2CEDFCAD00F75964 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446006092CEDFCAD00F75964 /* AppDelegate.swift */; };
 		446006132CEDFCAF00F75964 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 446006122CEDFCAF00F75964 /* Assets.xcassets */; };
 		446006162CEDFCAF00F75964 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 446006142CEDFCAF00F75964 /* LaunchScreen.storyboard */; };
@@ -59,6 +68,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4418A77C2CF8E384008BA7C3 /* IToDoListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IToDoListener.swift; sourceTree = "<group>"; };
+		4418A77E2CF8E3BB008BA7C3 /* IToDoNotifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IToDoNotifier.swift; sourceTree = "<group>"; };
+		4418A7802CF8E42C008BA7C3 /* ToDoNotifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoNotifier.swift; sourceTree = "<group>"; };
+		4418A7832CF8E518008BA7C3 /* Weak.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weak.swift; sourceTree = "<group>"; };
+		4418A7852CF8E530008BA7C3 /* Subscriber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscriber.swift; sourceTree = "<group>"; };
+		4418A7882CF8EA74008BA7C3 /* INotifierRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = INotifierRepository.swift; sourceTree = "<group>"; };
+		4418A78A2CF8EA78008BA7C3 /* NotifierRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotifierRepository.swift; sourceTree = "<group>"; };
+		4418A7902CF8F533008BA7C3 /* DispatchQueueLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DispatchQueueLabel.swift; sourceTree = "<group>"; };
 		446006062CEDFCAD00F75964 /* ToDoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		446006092CEDFCAD00F75964 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		446006122CEDFCAF00F75964 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -117,12 +134,50 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4418A78E2CF8ECC8008BA7C3 /* DifferenceKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4418A77B2CF8E331008BA7C3 /* ToDoNotifier */ = {
+			isa = PBXGroup;
+			children = (
+				4418A77C2CF8E384008BA7C3 /* IToDoListener.swift */,
+				4418A77E2CF8E3BB008BA7C3 /* IToDoNotifier.swift */,
+				4418A7802CF8E42C008BA7C3 /* ToDoNotifier.swift */,
+			);
+			path = ToDoNotifier;
+			sourceTree = "<group>";
+		};
+		4418A7822CF8E50F008BA7C3 /* RX */ = {
+			isa = PBXGroup;
+			children = (
+				4418A7832CF8E518008BA7C3 /* Weak.swift */,
+				4418A7852CF8E530008BA7C3 /* Subscriber.swift */,
+			);
+			path = RX;
+			sourceTree = "<group>";
+		};
+		4418A7872CF8EA59008BA7C3 /* Notifier */ = {
+			isa = PBXGroup;
+			children = (
+				4418A77B2CF8E331008BA7C3 /* ToDoNotifier */,
+				4418A7882CF8EA74008BA7C3 /* INotifierRepository.swift */,
+				4418A78A2CF8EA78008BA7C3 /* NotifierRepository.swift */,
+			);
+			path = Notifier;
+			sourceTree = "<group>";
+		};
+		4418A78F2CF8EF98008BA7C3 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				446006672CF32A5A00F75964 /* UITableViewCell+.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
 		446005FD2CEDFCAD00F75964 = {
 			isa = PBXGroup;
 			children = (
@@ -180,8 +235,10 @@
 		4460064C2CF0BFFB00F75964 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				4418A78F2CF8EF98008BA7C3 /* UI */,
+				4418A7822CF8E50F008BA7C3 /* RX */,
 				446006612CF32A2600F75964 /* IModule.swift */,
-				446006672CF32A5A00F75964 /* UITableViewCell+.swift */,
+				4418A7902CF8F533008BA7C3 /* DispatchQueueLabel.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -250,6 +307,7 @@
 		4460066E2CF32E8200F75964 /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
+				4418A7872CF8EA59008BA7C3 /* Notifier */,
 				4460066F2CF32E9100F75964 /* ToDo */,
 			);
 			path = Repositories;
@@ -314,21 +372,13 @@
 		448C19272CF3C5BE0017633F /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				448C192E2CF3C7950017633F /* Standart */,
 				448C19282CF3C5D60017633F /* ToDo.xcdatamodeld */,
-				448C19312CF3C7D30017633F /* DBContextProvider.swift */,
-			);
-			path = CoreData;
-			sourceTree = "<group>";
-		};
-		448C192E2CF3C7950017633F /* Standart */ = {
-			isa = PBXGroup;
-			children = (
 				448C19332CF3CA210017633F /* IDBRepository.swift */,
 				448C19352CF3CB2E0017633F /* DBRepository.swift */,
 				448C19372CF3CB390017633F /* IDBEntityMappable.swift */,
+				448C19312CF3C7D30017633F /* DBContextProvider.swift */,
 			);
-			path = Standart;
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 		448C193E2CF3DDAA0017633F /* MappingRules */ = {
@@ -364,6 +414,9 @@
 			dependencies = (
 			);
 			name = ToDoApp;
+			packageProductDependencies = (
+				4418A78D2CF8ECC8008BA7C3 /* DifferenceKit */,
+			);
 			productName = ToDoList;
 			productReference = 446006062CEDFCAD00F75964 /* ToDoApp.app */;
 			productType = "com.apple.product-type.application";
@@ -392,6 +445,9 @@
 				Base,
 			);
 			mainGroup = 446005FD2CEDFCAD00F75964;
+			packageReferences = (
+				4418A78C2CF8ECC8008BA7C3 /* XCRemoteSwiftPackageReference "DifferenceKit" */,
+			);
 			productRefGroup = 446006072CEDFCAD00F75964 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -421,6 +477,7 @@
 				4460065E2CF328DA00F75964 /* ToDoDetailsAssembly.swift in Sources */,
 				4460063B2CEE027300F75964 /* ToDoListViewController.swift in Sources */,
 				448C19402CF3DDBB0017633F /* ToDoMappingRule.swift in Sources */,
+				4418A77D2CF8E384008BA7C3 /* IToDoListener.swift in Sources */,
 				448C19342CF3CA210017633F /* IDBRepository.swift in Sources */,
 				446006662CF32A4A00F75964 /* ToDoTableViewCell+ViewModel.swift in Sources */,
 				448C19382CF3CB390017633F /* IDBEntityMappable.swift in Sources */,
@@ -430,7 +487,11 @@
 				446006752CF32F0600F75964 /* ToDoRepository.swift in Sources */,
 				446006432CEE02AB00F75964 /* ToDoListAssembly.swift in Sources */,
 				446006682CF32A5A00F75964 /* UITableViewCell+.swift in Sources */,
+				4418A77F2CF8E3BB008BA7C3 /* IToDoNotifier.swift in Sources */,
+				4418A7912CF8F533008BA7C3 /* DispatchQueueLabel.swift in Sources */,
 				448C193D2CF3DB340017633F /* ToDoDataModel.swift in Sources */,
+				4418A7892CF8EA74008BA7C3 /* INotifierRepository.swift in Sources */,
+				4418A7812CF8E42C008BA7C3 /* ToDoNotifier.swift in Sources */,
 				44F51CEA2CF33B7500B06F4E /* TDTextView.swift in Sources */,
 				4460063D2CEE028200F75964 /* ToDoListPresenter.swift in Sources */,
 				446006412CEE029E00F75964 /* ToDoListRouter.swift in Sources */,
@@ -442,6 +503,7 @@
 				446006732CF32EFC00F75964 /* IToDoRepository.swift in Sources */,
 				4460068E2CF335FC00F75964 /* SharedContainer.swift in Sources */,
 				4460067C2CF3316C00F75964 /* IToDoStorage.swift in Sources */,
+				4418A7862CF8E530008BA7C3 /* Subscriber.swift in Sources */,
 				44F51CF02CF3679B00B06F4E /* ToDoCellPreviewViewController+Model.swift in Sources */,
 				4460066A2CF32C1300F75964 /* AppDependencies.swift in Sources */,
 				446006512CF0F48900F75964 /* BottomListCountView.swift in Sources */,
@@ -459,6 +521,8 @@
 				448C19422CF519A20017633F /* ActionsContainer.swift in Sources */,
 				44F51CEE2CF3651E00B06F4E /* ToDoCellPreviewViewController.swift in Sources */,
 				4460065C2CF328D400F75964 /* ToDoDetailsRouter.swift in Sources */,
+				4418A7842CF8E518008BA7C3 /* Weak.swift in Sources */,
+				4418A78B2CF8EA78008BA7C3 /* NotifierRepository.swift in Sources */,
 				448C193A2CF3D43D0017633F /* ToDoStorageEntityMapper.swift in Sources */,
 				446006772CF32F0D00F75964 /* IToDoService.swift in Sources */,
 				446006792CF32F1300F75964 /* ToDoService.swift in Sources */,
@@ -685,6 +749,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4418A78C2CF8ECC8008BA7C3 /* XCRemoteSwiftPackageReference "DifferenceKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ra1028/DifferenceKit";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4418A78D2CF8ECC8008BA7C3 /* DifferenceKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4418A78C2CF8ECC8008BA7C3 /* XCRemoteSwiftPackageReference "DifferenceKit" */;
+			productName = DifferenceKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		448C19282CF3C5D60017633F /* ToDo.xcdatamodeld */ = {

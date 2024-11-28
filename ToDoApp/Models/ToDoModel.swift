@@ -18,3 +18,17 @@ struct ToDoModel: Codable {
     let date: Date
     let completed: Bool
 }
+
+extension ToDoModel {
+
+    func copyCompleted(_ newCompleted: Bool) -> Self {
+        return ToDoModel(
+            id: id,
+            userID: userID,
+            title: title,
+            description: description,
+            date: Date(),
+            completed: newCompleted
+        )
+    }
+}

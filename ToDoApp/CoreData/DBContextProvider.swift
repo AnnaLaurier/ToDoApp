@@ -13,8 +13,6 @@ protocol IDBContextProvidable: AnyObject {
     var mainContext: NSManagedObjectContext { get }
 
     func backgroundContextPerform(completion: @escaping (NSManagedObjectContext) -> Void)
-
-    func backgroundContextPerformAndWait(completion: @escaping (NSManagedObjectContext) -> Void)
 }
 
 final class DBContextProvider {
@@ -41,14 +39,6 @@ extension DBContextProvider: IDBContextProvidable {
 
     func backgroundContextPerform(completion: @escaping (NSManagedObjectContext) -> Void) {
         persistentContainer.performBackgroundTask(completion)
-    }
-
-    func backgroundContextPerformAndWait(completion: @escaping (NSManagedObjectContext) -> Void) {
-        let context = persistentContainer.newBackgroundContext()
-
-        context.performAndWait {
-            completion(context)
-        }
     }
 }
 

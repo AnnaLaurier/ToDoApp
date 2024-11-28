@@ -75,8 +75,8 @@ final class ToDoDetailsViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
 
         guard isMovingFromParent else { return }
 
